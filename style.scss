@@ -1,0 +1,830 @@
+@charset "UTF-8";
+
+.for-pc { display:block; }
+.for-sp { display:none; }
+.for-tab{ display:block; }
+
+// 色
+$color-main: #ffaa3b;
+$color-active: #f18900;
+$color-text: #3e3e3e;
+$color-background: #f3f3f3;
+$color-disable: #b2b2b2;
+
+// フォント
+$font-family-default: "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "Droid Sans", sans-serif;
+$font-family-english: "Montserrat", sans-serif;
+
+// レイアウト幅
+$layout-width-canvas: 1280px;
+$layout-width-inner: 1200px;
+
+// ブレークポイント
+$breakpoints: (
+	"sp-down": "(max-width: 767px)",
+	"sp-up": "(min-width: 768px)",
+	"tab-down": "(max-width: #{$layout-width-inner - 1px})",
+	"tab-up": "(min-width: #{$layout-width-inner})",
+	"retina": "only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx)",
+);
+
+// メディアクエリー
+@mixin mq($breakpoint: sp) {
+	@media #{map-get($breakpoints, $breakpoint)} {
+		@content;
+	}
+}
+
+/* リセットCSS
+===================================== */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, button, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+li, dd {
+  list-style-type: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  font-weight: normal;
+  text-align: left;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+
+q {
+  &:before, &:after {
+    content: "";
+    content: none;
+  }
+}
+
+blockquote {
+  &:before, &:after {
+    content: "";
+    content: none;
+  }
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+img {
+  border: none;
+  vertical-align: bottom;
+}
+
+body {
+  color: #082b48;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  line-height: 1.5;
+}
+
+img{
+  width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: #082b48;
+}
+
+/*マウスホバー時の動き*/
+
+a:hover {
+  opacity: 0.7;
+}
+
+.container {
+  width: 90%;
+  max-width: 980px;
+  margin: auto;
+}
+
+.clear::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+/* 基本設定
+===================================== */
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  background: $color-background;
+  color: $color-text;
+  font-family: $font-family-default;
+	line-height: 1.45;
+	font-weight: 500;
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.util-ttl {
+  font-family: $font-family-english;
+  font-size: 3rem;
+	font-weight: 600;
+
+	@include mq('sp-up') {
+		font-size: 3.6rem;
+	}
+}
+
+.util-linkBox {
+	@include mq('sp-down') {
+		text-align: center;
+	}
+}
+
+.util-link {
+  border: solid 1px #3e3e3e;
+  color: #3e3e3e;
+  display: block;
+  font-family: $font-family-english;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  padding: .8em 0;
+  position: relative;
+  text-align: center;
+  -webkit-transition: background-color .2s, color .2s;
+  transition: background-color .2s, color .2s;
+
+  &.mod-light {
+    border-color: #fff;
+    color: #fff;
+	}
+
+	@include mq('sp-up') {
+		&.mod-light:hover {
+      background: #fff;
+      color: #3e3e3e;
+    }
+
+    &:hover {
+      background: #3e3e3e;
+      color: #fff;
+    }
+	}
+
+	@include mq('sp-down') {
+		font-size: 1.8rem;
+		margin: 0 auto;
+		max-width: 268px;
+		padding-top: 13px;
+		padding-bottom: 13px;
+	}
+}
+
+
+/*============================
+   header
+   ============================*/
+   .header {
+    
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 20px;
+    background: #fff;
+
+  }
+
+  .header.scrolled {
+    top: -60px; /* ヘッダーの高さ */
+  }
+
+header {
+	@include mq('sp-up') {
+   padding: 10px 0;
+    }
+
+}
+
+.header-title {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.header-left {
+  float: left;
+}
+
+.header-right {
+  float: right;
+}
+
+.header-nav {
+}
+
+.header-nav-item {
+  float: left;
+  margin-left: 50px;
+}
+
+.header-nav-item {
+  float: left;
+  margin-left: 50px;
+}
+
+.header-nav-item a {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.8;
+}
+.drawer_input{
+  
+}
+
+
+  
+  .logo {
+    font-size: 24px;
+  }
+  
+
+/*====================
+   わたしについて
+   =====================*/
+
+.profile_title {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  padding-top: 2%;
+}
+
+.profile_lead {
+  text-align: center;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
+    Verdana, sans-serif;
+  padding-bottom: 1%;
+}
+
+.profile-card_img {
+  width: 50%;
+}
+
+.sns-links_item {
+  width: 10%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.sns {
+  display: flex;
+  margin-left: 30%;
+}
+
+.nav-twitter{
+height: 80px;
+}
+
+.nav-facebook{
+height: 57px;
+margin-top: 15%;
+}
+
+.card-title {
+  font-weight: 300;
+  padding: 3px 0 3px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.card-text{
+font-size: 14px;
+}
+
+.card-text-obsession {
+  font-weight: bold;
+  font-size: 15px;
+  padding: 3px 0 3px;
+}
+
+.card-name{
+font-size: 19px;
+text-align: center;
+font-weight: bold;
+}
+
+/*====================
+ できること
+=====================*/
+
+.course{
+background-color: #f0f8ff;
+padding: 5%;
+padding-bottom: 10%;
+}
+
+.course-section {
+font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva,
+Verdana, sans-serif;
+font-size: 16px;
+padding: 1px 0 2px;
+}
+
+.course-name{
+font-size: 30px;
+}
+
+.card-section{
+ height: 30%;
+}
+
+.card_area{
+display: flex;
+width: 55%;
+height: 30%;
+
+margin-left: 22.5%;
+}
+
+.card_item1 {
+padding-right: 4%;
+height: 20%;
+}
+
+.card-title{
+padding: 8px 0 3px;
+font-weight: bold;
+}
+
+/*=======================
+制作例
+=======================*/
+
+.container-section{
+padding-top: 6%;
+}
+
+.course-section3{
+
+}
+
+.card{
+padding: 0%;
+}
+
+#sample .samplebox {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: center;
+    padding: 10px;
+    padding-bottom: 10%;
+    background: border-box;
+  }
+  #sample .item {
+    background: #fff;
+    padding: 1px;
+    width: 30%;
+  }
+  #sample .item p {
+    margin: 15px 0 0;
+  }
+  #sample .samplebtn {
+    margin: 15px 0 0;
+  }
+  #sample .samplebtn span {
+    display: block;
+    background: #36a2eb;
+    color: #fff;
+    line-height: 60px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    
+  }
+
+.sample-name{
+text-align: center;
+font-weight: bold;
+}
+
+.sample-section{
+padding-bottom: 2%;
+}
+
+/*====================
+お問い合わせ
+===================*/
+
+  .section_title{
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  }
+
+  .section_lead{
+  font-size: 17px;
+  text-align: center;
+  padding-top: 1%;
+  }
+
+  .contact_message{
+  font-size: 16px;
+  text-align: center;
+  padding: 6%;
+  }
+
+  .content1{
+  text-align: center;
+  padding-top: 1%;
+  }
+
+  .content2{
+  text-align: center;
+  font-size: 18px;
+  padding: 2%;
+  }
+
+
+
+.item{
+background-color: #f0f8ff;
+}
+
+.contact_items{
+display: flex;
+text-align: center;
+}
+
+.mail{
+width: 14%;
+height: 80%;
+margin-right: 6%;
+}
+
+.twitter{
+width: 13%;
+height: 80%;
+margin-left: 4%;
+}
+
+
+.contact_title{
+font-weight: bold;
+text-align: center;
+font-size: 15px;
+
+}
+
+.contact_title1{
+font-size: 15px;
+font-weight: bold;
+margin-right: 12%;
+}
+
+
+
+
+
+
+/*---------------------
+お問い合わせ　テスト
+----------------------*/
+
+.contact__title{
+text-align: center;
+font-weight: bold;
+font-size: 28px;
+}
+
+.contact_lead{
+text-align: center;
+padding-top: 1%;
+font-size: 16px;
+}
+
+.contact__message{
+text-align: center;  
+padding: 5%;
+font-size: 17px;
+}
+
+.contact_inner{
+padding: 4%;
+}
+
+.contact_inner{
+background-color: #f0f8ff;
+padding-top: 7%;
+}
+
+//results
+
+
+/* bysikle
+---------------------------- */
+
+.section-title{
+text-align: center;
+font-size: 30px;
+font-weight: 700;
+padding: 30px 0 6px;
+
+}
+
+.content{
+	@include mq('sp-down') {
+	flex-direction: column;
+    width: 200%;
+    margin-left: 18%;
+	}
+}
+
+.section-text{
+    text-align: center;
+    font-size: 16px;
+    
+    padding: 0 0 17px; 
+}
+
+#bicycle ul {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  #bicycle li {
+    width: 32%;
+    text-align: center;
+  }
+
+  .content-title{
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px 0 10px;
+  }
+  
+.content-text{
+font-size: 16px;
+padding-bottom: 60px;
+}
+
+
+/*====================
+footer
+===================*/
+
+.footer{
+padding: 1.1%;
+text-align: center;
+font-size: 14px;
+color: #fff;
+background-color: #555;
+}
+
+
+
+/*====================
+footer
+===================*/
+
+
+@media only screen and (max-width : 767px){
+  .for-pc { display:none; }
+  .for-sp { display:block; }
+
+  /* ここから下がハンバーガーメニューに関するCSS */
+    
+  /* チェックボックスを非表示にする */
+  .drawer_hidden {
+    display: none;
+  }
+  
+  /* ハンバーガーアイコンの設置スペース */
+  .drawer_open {
+    
+    position: fixed;
+    display: flex;
+    height: 60px;
+    width: 60px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 100;/* 重なり順を一番上にする */
+    cursor: pointer;
+  }
+  
+  /* ハンバーガーメニューのアイコン */
+  .drawer_open span,
+  .drawer_open span:before,
+  .drawer_open span:after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 25px;
+    border-radius: 3px;
+    background: #333;
+    transition: 0.5s;
+    position: absolute;
+    
+  }
+  
+  /* 三本線の一番上の棒の位置調整 */
+  .drawer_open span:before {
+    bottom: 8px;
+    
+  }
+  
+  /* 三本線の一番下の棒の位置調整 */
+  .drawer_open span:after {
+    top: 8px;
+    
+  }
+  
+  /* アイコンがクリックされたら真ん中の線を透明にする */
+  #drawer_input:checked ~ .drawer_open span {
+    background: rgba(255, 255, 255, 0);
+  
+  }
+  
+  /* アイコンがクリックされたらアイコンが×印になように上下の線を回転 */
+  #drawer_input:checked ~ .drawer_open span::before {
+    bottom: 0;
+    transform: rotate(45deg);
+    
+  }
+  
+  #drawer_input:checked ~ .drawer_open span::after {
+    top: 0;
+    transform: rotate(-45deg);
+  
+  }
+    
+  /* メニューのデザイン*/
+  
+  .nav_content {
+    width: 100%;
+  
+    position: fixed;
+    top: 60px;
+    left: 100%; /* メニューを画面の外に飛ばす */
+    z-index: 99;
+    background: #fff;
+    transition: .5s;
+    padding: 26px 0 360px;
+    overflow-y: scroll;
+  }
+  
+  /* メニュー黒ポチを消す */
+  .nav_list {
+    list-style: none;
+    font-size: 20px;
+    color: #fff;
+    margin-left: 50%;
+  }
+
+ 
+  
+  /* アイコンがクリックされたらメニューを表示 */
+  #drawer_input:checked ~ .nav_content {
+    /* メニューを画面に入れる */
+    left: 12%;
+    top: 60px;
+    /* right: 0; */
+    background: #36a2eb;
+   position: absolute;
+    body{
+    overflow: hidden;
+    }
+
+
+  }
+
+  .logo{
+ font-weight: bold;
+  }
+
+  .nav_item{
+  font-weight: bold;
+  padding: 10px 0 20px;
+
+  a{
+  color: #fff;
+  }
+  }
+
+.item{
+  
+}
+
+.contact_items{
+
+}
+
+.contact_sp{
+background-color: #f0f8ff;
+padding-top: 5%;
+}
+
+.mail1{
+width: 200px;
+padding: 5%;
+}
+
+.twitter1{
+width: 200px;
+padding-top: 15%;
+}
+
+.contact_title3{
+font-weight: bold;
+}
+
+.contact_title4{
+font-weight: bold;
+}
+
+.contact-img{
+ width: 50%;
+ margin-left: 25%;
+  }
+
+  .mx-auto{
+  padding: 4%;
+  }
+
+  .card-title{
+  padding: 10%;
+  }
+}
+
+.img.mail{
+width: 20%;
+}
+
+
+.info{
+font-weight: bold;
+text-align: center;
+padding-bottom: 2%;
+}
+
+.example{
+font-weight: bold;
+text-align: center;
+}
+
+.contact_sm{
+padding-left: 25%;
+padding-right: 25%;
+padding-bottom: 10%;
+background-color: #f0f8ff;
+}
+
+#back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: opacity 0.3s;
+  z-index: 9999; /* 追加 */
+  }
