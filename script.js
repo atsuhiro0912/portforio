@@ -49,3 +49,25 @@ window.addEventListener('scroll', function() {
     header.classList.remove('scrolled');
   }
 });
+
+  // ハンバーガーメニューのアイコン要素を取得
+  var drawerCheckbox = document.getElementById('drawer_input');
+  // メニュー要素を取得
+  var navContent = document.querySelector('.nav_content');
+  
+  // メニューの表示・非表示を切り替える関数
+  function toggleMenu() {
+    navContent.classList.toggle('open');
+  }
+  
+  // ハンバーガーメニューのチェックボックスの状態が変化したらメニューを切り替える
+  drawerCheckbox.addEventListener('change', toggleMenu);
+  
+  // メニュー内のリンクがクリックされたらメニューを閉じる
+  var navLinks = document.querySelectorAll('.nav_item a');
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function() {
+      navContent.classList.remove('open');
+      drawerCheckbox.checked = false;
+    });
+  });
